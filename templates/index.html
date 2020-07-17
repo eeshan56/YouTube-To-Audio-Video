@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% block content %}
+	<div class = "content-section">
+		<form method="POST", action="">
+			{{ form.hidden_tag() }}
+			<fieldset class = "form-group">
+				<legend class = "border-bottom mb-4"><center><h4>YouTube to Audio/Video</h4></center></legend>
+				
+				<div class="form-group">
+					<span class="form-control-label"><h5>{{ form.url_field.label(class = "form-control-label") }}</h5></span>
+					{% if form.url_field.errors %}
+						{{ form.url_field(class="form-control form-control-lg is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.url_field.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.url_field(class="form-control form-control-lg") }}
+					{% endif %}
+				</div>
+				<div class="form-group">
+					<span class="form-control-label"><h5>{{ form.output_format.label(class = "form-control-label") }}</h5></span>
+					{{ form.output_format(class="form-control form-control-lg") }}
+				</div>
+			</fieldset>
+
+			{{ form.submit(class="btn btn-outline-primary") }}
+		</form>
+	</div>
+{% endblock content %}
