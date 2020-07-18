@@ -4,7 +4,7 @@ import sys
 
 def downloadVideo(video_url):
 	try:
-		good_list = ['__pycache__', 'static', 'templates', 'app.py', 'download.py', 'forms.py', 'requirements.txt', 'Procfile', '.git', 'README.md']
+		good_list = ['__pycache__', 'static', 'templates', 'app.py', 'download.py', 'forms.py', 'requirements.txt', 'Procfile', '.git', 'README.md', '.profile.d', 'runtime.txt', '.heroku']
 		files = os.listdir('./')
 		bad_list = []
 		for i in files:
@@ -28,7 +28,7 @@ def downloadVideo(video_url):
 
 def downloadAudio(video_url):
 	try:
-		good_list = ['__pycache__', 'static', 'templates', 'app.py', 'download.py', 'forms.py', 'requirements.txt', 'README.md']
+		good_list = ['__pycache__', 'static', 'templates', 'app.py', 'download.py', 'forms.py', 'requirements.txt', 'README.md', 'runtime.txt', '.heroku', '.profile.d']
 		files = os.listdir('./')
 		bad_list = []
 		for i in files:
