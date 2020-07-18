@@ -30,7 +30,7 @@ def home():
 	if request.method == 'POST':
 		if form.validate_on_submit():
 			if not verify(form.url_field.data):
-				flash('Please enter a valid URL', 'danger')
+				flash('Please enter a valid YouTube URL', 'danger')
 
 			format_display = dict(FormatChoices).get(form.output_format.data)
 

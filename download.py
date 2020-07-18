@@ -1,14 +1,16 @@
 import pafy
 import os
+import sys
 
 def downloadVideo(video_url):
 	try:
-		good_list = ['__pycache__', 'static', 'templates', 'app.py', 'download.py', 'forms.py', 'requirements.txt']
+		good_list = ['__pycache__', 'static', 'templates', 'app.py', 'download.py', 'forms.py', 'requirements.txt', 'Procfile', '.git', 'README.md']
 		files = os.listdir('./')
 		bad_list = []
 		for i in files:
 			if not i in good_list:
 				bad_list.append(i)
+		print(bad_list)
 
 		for i in bad_list:
 			os.remove(i)
@@ -21,6 +23,7 @@ def downloadVideo(video_url):
 		return filename
 	except:
 		print("Something's wrong...")
+		print("Unexpected error:", sys.exc_info()[0])
 		return "-1"
 
 def downloadAudio(video_url):
@@ -31,6 +34,7 @@ def downloadAudio(video_url):
 		for i in files:
 			if not i in good_list:
 				bad_list.append(i)
+		print(bad_list)
 
 		for i in bad_list:
 			os.remove(i)
@@ -43,6 +47,7 @@ def downloadAudio(video_url):
 		return filename
 	except:
 		print("Something's wrong...")
+		print("Unexpected error:", sys.exc_info()[0])
 		return "-1"
 
 # valid = False
