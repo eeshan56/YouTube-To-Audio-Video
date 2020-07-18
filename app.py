@@ -38,7 +38,7 @@ def home():
 				result = downloadVideo(form.url_field.data)
 				print(result)
 				if result == "-1":
-					flash('Please enter a valid URL', 'danger')
+					flash('An unexpected error has occured. Please try again', 'danger')
 				else:
 					flash('File successfully converted', 'success')
 					form.url_field.data = ""
@@ -48,7 +48,7 @@ def home():
 				result = downloadAudio(form.url_field.data)
 
 				if result == "-1":
-					flash('Please enter a valid URL', 'danger')
+					flash('An unexpected error has occured. Please try again', 'danger')
 				else:
 					flash('File successfully converted', 'success')
 					return redirect('/downloadfile/' + result)
