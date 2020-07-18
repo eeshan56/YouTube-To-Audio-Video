@@ -1,10 +1,11 @@
 import pafy
 import os
 import sys
+import subprocess
 
 def downloadVideo(video_url):
 	try:
-		good_list = ['__pycache__', 'static', 'templates', 'app.py', 'download.py', 'forms.py', 'requirements.txt', 'Procfile', '.git', 'README.md', '.profile.d', 'runtime.txt', '.heroku']
+		good_list = ['__pycache__', 'static', 'templates', 'app.py', 'download.py', 'forms.py', 'requirements.txt', 'Procfile', '.git', 'README.md', '.profile.d', 'runtime.txt', '.heroku', 'favicon.ico']
 		files = os.listdir('./')
 		bad_list = []
 		for i in files:
@@ -16,9 +17,15 @@ def downloadVideo(video_url):
 			os.remove(i)
 
 		result = pafy.new(video_url)
+		MP4FILE = result.title + ".mp4"
 		best_quality_video = result.getbest()
 		filename = result.title + '.' + best_quality_video.extension
 		best_quality_video.download()
+
+		if filename != MP4FILE:
+			command = "ffmpeg -i '" + str(filename) + "' '" + str(MP4FILE) + "'"
+			subprocess.call(command, shell = True)
+			return MP4FILE
 		
 		return filename
 	except:
@@ -28,7 +35,7 @@ def downloadVideo(video_url):
 
 def downloadAudio(video_url):
 	try:
-		good_list = ['__pycache__', 'static', 'templates', 'app.py', 'download.py', 'forms.py', 'requirements.txt', 'README.md', 'runtime.txt', '.heroku', '.profile.d']
+		good_list = ['__pycache__', 'static', 'templates', 'app.py', 'download.py', 'forms.py', 'requirements.txt', 'README.md', 'runtime.txt', '.heroku', '.profile.d', '.git', 'Procfile', 'favicon.ico']
 		files = os.listdir('./')
 		bad_list = []
 		for i in files:
@@ -39,15 +46,22 @@ def downloadAudio(video_url):
 		for i in bad_list:
 			os.remove(i)
 			
+		
 		video = pafy.new(video_url)
 		best_quality_audio = video.getbestaudio()
-		filename = result.title + '.' + best_quality_audio.extension
+		MP3FILE = video.title + '.mp3'
+		filename = video.title + '.' + best_quality_audio.extension
 		best_quality_audio.download()
+
+		if filename != MP3FILE:
+			command = "ffmpeg -i '" + str(filename) + "' '" + str(MP3FILE) + "'"
+			subprocess.call(command, shell = True)
+			return MP3FILE
 		
 		return filename
 	except:
 		print("Something's wrong...")
-		print("Unexpected error:", sys.exc_info()[0])
+		print("Unexpected error:", sys.exc_info())
 		return "-1"
 
 # valid = False
