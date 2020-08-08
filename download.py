@@ -17,20 +17,33 @@ def downloadVideo(video_url):
 			os.remove(i)
 
 		result = pafy.new(video_url)
-		MP4FILE = result.title + ".mp4"
-		best_quality_video = result.getbest()
-		filename = result.title + '.' + best_quality_video.extension
-		best_quality_video.download()
+		result_streams = result.streams
 
-		if filename != MP4FILE:
-			command = "ffmpeg -i '" + str(filename) + "' '" + str(MP4FILE) + "'"
-			subprocess.call(command, shell = True)
-			return MP4FILE
+		if len(result_streams) == 0:
+			return "-1"
+
+		min_index = 0
+		min_filesize = result_streams[0].get_filesize()
+
+		for i in range(1, len(result_streams)):
+			if result_streams[i].extension == 'mp4':
+				if min_filesize > result_streams[i].get_filesize():
+					min_filesize = result_streams[i].get_filesize()
+					min_index = i
+
+		my_stream = result_streams[min_index]
+		filename = result.title + '.' + my_stream.extension
+		my_stream.download()
 		
 		return filename
+
+	except SystemExit:
+		print("Something's wrong... Why is this error occuring?")
+		return "-2"
+
 	except:
 		print("Something's wrong...")
-		print("Unexpected error:", sys.exc_info()[0])
+		print("Unexpected error:", sys.exc_info())
 		return "-1"
 
 def downloadAudio(video_url):
@@ -48,56 +61,31 @@ def downloadAudio(video_url):
 			
 		
 		video = pafy.new(video_url)
-		best_quality_audio = video.getbestaudio()
-		MP3FILE = video.title + '.mp3'
-		filename = video.title + '.' + best_quality_audio.extension
-		best_quality_audio.download()
+		result_streams = video.audiostreams
 
-		if filename != MP3FILE:
-			command = "ffmpeg -i '" + str(filename) + "' '" + str(MP3FILE) + "'"
-			subprocess.call(command, shell = True)
-			return MP3FILE
+		if len(result_streams) == 0:
+			return "-1"
+
+		min_index = 0
+		min_filesize = result_streams[0].get_filesize()
+
+		for i in range(1, len(result_streams)):
+			if result_streams[i].extension == 'mp3':
+				if min_filesize > result_streams[i].get_filesize():
+					min_filesize = result_streams[i].get_filesize()
+					min_index = i
+
+		my_stream = result_streams[min_index]
+		filename = result.title + '.' + my_stream.extension
+		my_stream.download()
 		
 		return filename
+		
+	except SystemExit:
+		print("Something's wrong... Why is this error occuring?")
+		return "-2"
+
 	except:
 		print("Something's wrong...")
 		print("Unexpected error:", sys.exc_info())
 		return "-1"
-
-# valid = False
-
-# while not valid:
-
-# 	video_url = input("Enter URL of the YouTube video: ")
-# 	try:
-# 		youtube = pytube.YouTube(video_url)
-# 		video = youtube.streams.first()
-# 		valid = True
-# 	except:
-# 		print("Something's wrong. Please check if you've entered the correct URL.\n")
-
-# valid = False
-
-# while not valid:
-
-# 	resp = input("Do you want to download the audio of this video or the entire video? (Type audio/video): ")
-
-# 	if resp.lower() == "video":
-
-# 		print("Video is downloading...\n\n")
-# 		video.download("/home/eeshan/Downloads/")
-# 		print("Video has been successfully downloaded. Check your downloads folder.")
-# 		valid = True
-
-# 	elif resp.lower() == "audio":
-
-# 		print("Audio is downloading...\n\n")
-# 		video = pafy.new(video_url)
-# 		best_quality_audio = video.getbestaudio()
-# 		best_quality_audio.download("/home/eeshan/Downloads/")
-# 		print("Audio has been successfully downloaded. Check your downloads folder.")
-# 		valid = True
-
-# 	else:
-
-# 		print("Please enter 'audio' or 'video'\n")

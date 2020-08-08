@@ -3,7 +3,6 @@ from flask import Flask, render_template, redirect, request, url_for, flash, sen
 from werkzeug.utils import secure_filename
 from forms import MainForm, FormatChoices
 
-
 from download import downloadVideo, downloadAudio
 
 import pafy
@@ -37,7 +36,7 @@ def home():
 			if format_display == 'Video':
 				result = downloadVideo(form.url_field.data)
 				print(result)
-				if result == "-1":
+				if result == "-1" or result == "-2":
 					flash('An unexpected error has occured. Please try again', 'danger')
 				else:
 					flash('File successfully converted', 'success')
@@ -47,7 +46,7 @@ def home():
 			elif format_display == "Audio":
 				result = downloadAudio(form.url_field.data)
 
-				if result == "-1":
+				if result == "-1" or result == "-2":
 					flash('An unexpected error has occured. Please try again', 'danger')
 				else:
 					flash('File successfully converted', 'success')
